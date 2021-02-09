@@ -4,11 +4,6 @@
       <h3 class="drawer-title">{{ $t('settings.title') }}</h3>
 
       <div class="drawer-item">
-        <span>{{ $t('settings.theme') }}</span>
-        <theme-picker style="float: right;height: 26px;margin: -3px 8px 0 0;" @change="themeChange" />
-      </div>
-
-      <div class="drawer-item">
         <span>{{ $t('settings.tagsView') }}</span>
         <el-switch v-model="tagsView" class="drawer-switch" />
       </div>
@@ -29,12 +24,6 @@
           :closable="false"
         />
       </a>
-
-      <div v-if="lang === 'zh'" class="drawer-item">
-        <span>菜单支持拼音搜索</span>
-        <el-switch v-model="supportPinyinSearch" class="drawer-switch" />
-      </div>
-
     </div>
   </div>
 </template>
@@ -88,29 +77,12 @@ export default {
         })
       }
     },
-    supportPinyinSearch: {
-      get() {
-        return this.$store.state.settings.supportPinyinSearch
-      },
-      set(val) {
-        Cookies.set('supportPinyinSearch', val, { expires: 365 })
-        this.$store.dispatch('settings/changeSetting', {
-          key: 'supportPinyinSearch',
-          value: val
-        })
-      }
-    },
     lang() {
       return this.$store.getters.language
     }
   },
   methods: {
-    themeChange(val) {
-      this.$store.dispatch('settings/changeSetting', {
-        key: 'theme',
-        value: val
-      })
-    }
+  
   }
 }
 </script>
