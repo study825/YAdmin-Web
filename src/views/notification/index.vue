@@ -122,37 +122,40 @@ export default {
         is_read: '',
         time: ''
       },
-      pickerOptions: {
-        shortcuts: [{
-          text: this.$t('common.week'),
-          onClick(picker) {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: this.$t('common.oneMonth'),
-          onClick(picker) {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: this.$t('common.threeMonth'),
-          onClick(picker) {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-            picker.$emit('pick', [start, end])
-          }
-        }]
-      }
+      // pickerOptions: {
+      //   shortcuts: [{
+      //     text: this.$t('common.week'),
+      //     onClick(picker) {
+      //       const end = new Date()
+      //       const start = new Date()
+      //       start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+      //       picker.$emit('pick', [start, end])
+      //     }
+      //   }, {
+      //     text: this.$t('common.oneMonth'),
+      //     onClick(picker) {
+      //       const end = new Date()
+      //       const start = new Date()
+      //       start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+      //       picker.$emit('pick', [start, end])
+      //     }
+      //   }, {
+      //     text: this.$t('common.threeMonth'),
+      //     onClick(picker) {
+      //       const end = new Date()
+      //       const start = new Date()
+      //       start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+      //       picker.$emit('pick', [start, end])
+      //     }
+      //   }]
+      // }
     }
   },
-  mounted() {
+  created() {
     this.getNotifications()
+  },
+  mounted() {
+    // this.getNotifications()
   },
   methods: {
     getNotifications() {

@@ -20,7 +20,7 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('notification.message')" :error="error.message ? error.message[0] : ''">
+          <el-form-item :label="$t('notification.message')">
             <Tinymce ref="editor" v-model="form.message" :height="400" :editor-image="false" />
           </el-form-item>
           <el-form-item>
@@ -94,12 +94,10 @@ export default {
         // 只有这样才能清空
         this.$refs.editor.setContent('')
         this.loading = false
-      }).catch(reason => {
-        if (reason.response.status === 422) {
-          const { data } = reason.response.data
-          this.error = data
-          this.loading = false
-        }
+      }).catch(error => {
+          if (error.response.status === 422) {
+            this.loading = false
+          }
       })
     }
   }

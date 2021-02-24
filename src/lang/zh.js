@@ -78,14 +78,6 @@ export default {
     activeLog: {
       activeLogs: '操作记录'
     },
-    'base-data': '基础数据',
-    banner: '轮播图',
-    'categories': '职位分类',
-    'tag': '标签管理',
-    'import-data': '核心数据',
-    'job-table': '职位列表',
-    'company-table': '公司列表',
-    'industry': '行业领域'
   },
   navbar: {
     dashboard: '首页',

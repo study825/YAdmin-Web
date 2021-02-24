@@ -6,15 +6,23 @@
       class="hamburger-container"
       @toggleClick="toggleSideBar"
     />
-
     <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
 
     <div class="right-menu">
       <template v-if="device !== 'mobile'">
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
-
         <lang-select class="right-menu-item hover-effect" />
       </template>
+
+      <!-- 站内信 -->
+      <div class="right-menu-item hover-effect">
+        <router-link to="/notification"> 
+          <i class="el-icon-message-solid" content="message-icon" style="color: #5a5e66">
+            <el-badge :hidden="unreadNotificationCount === 0" :value="unreadNotificationCount" :max="99" class="message-number" />
+          </i>
+        </router-link>
+      </div>
+
 
       <el-dropdown
         class="avatar-container right-menu-item hover-effect"
