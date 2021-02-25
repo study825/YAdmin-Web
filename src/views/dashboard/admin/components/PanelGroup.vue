@@ -6,10 +6,13 @@
           <svg-icon icon-class="peoples" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">
-           在线人数
-          </div>
-          <count-to :start-val="0" :end-val="num" :duration="2600" class="card-panel-num" />
+          <div class="card-panel-text">在线人数</div>
+          <count-to
+            :start-val="0"
+            :end-val="onlineNum"
+            :duration="2600"
+            class="card-panel-num"
+          />
         </div>
       </div>
     </el-col>
@@ -56,23 +59,24 @@
 </template>
 
 <script>
-import CountTo from 'vue-count-to'
+import CountTo from "vue-count-to";
 
 export default {
   data() {
     return {
-      num: 100
-    }
+      num: 100,
+    };
   },
+  props: ['onlineNum'],
   components: {
-    CountTo
+    CountTo,
   },
   methods: {
     handleSetLineChartData(type) {
-      this.$emit('handleSetLineChartData', type)
-    }
-  }
-}
+      this.$emit("handleSetLineChartData", type);
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -91,8 +95,8 @@ export default {
     overflow: hidden;
     color: #666;
     background: #fff;
-    box-shadow: 4px 4px 40px rgba(0, 0, 0, .05);
-    border-color: rgba(0, 0, 0, .05);
+    box-shadow: 4px 4px 40px rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.05);
 
     &:hover {
       .card-panel-icon-wrapper {
@@ -112,7 +116,7 @@ export default {
       }
 
       .icon-shopping {
-        background: #34bfa3
+        background: #34bfa3;
       }
     }
 
@@ -129,7 +133,7 @@ export default {
     }
 
     .icon-shopping {
-      color: #34bfa3
+      color: #34bfa3;
     }
 
     .card-panel-icon-wrapper {
@@ -165,7 +169,7 @@ export default {
   }
 }
 
-@media (max-width:550px) {
+@media (max-width: 550px) {
   .card-panel-description {
     display: none;
   }
