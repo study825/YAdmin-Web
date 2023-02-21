@@ -11,3 +11,5 @@
 #### 页面
 
 ![登陆页面](https://github.com/study825/YAdmin-Web/blob/master/WechatIMG125.jpeg)
+
+![面板](https://github.com/study825/YAdmin-Web/blob/master/WechatIMG126.jpeg)
