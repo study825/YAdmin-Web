@@ -5,8 +5,12 @@
 - Node v12.x
 - Vue
 #### 运行方式(一)
+- 安装依赖： `npm install`
 - 运行命令： `npm run dev`
 - 打包命令： `npm run build:prod`
+#### 后端项目地址
+- https://github.com/study825/YAdmin-Api
+
 
 #### 页面
 
