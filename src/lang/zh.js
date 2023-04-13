@@ -78,6 +78,9 @@ export default {
     activeLog: {
       activeLogs: '操作记录'
     },
+    houses:'建筑列表',
+    students: '学生列表',
+    courses: '课程信息'
   },
   navbar: {
     dashboard: '首页',

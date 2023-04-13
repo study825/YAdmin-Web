@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import PanelGroup from './components/PanelGroup'
+// import PanelGroup from './components/PanelGroup'
 
 export default {
   name: 'DashboardAdmin',
   components: {
-    PanelGroup
+    // PanelGroup
   },
   data() {
     return {
@@ -22,10 +22,10 @@ export default {
     if ('WebSocket' in window) {
       const uri = process.env.VUE_APP_WEBSOCKET_API
 
-      this.websocket = new WebSocket(`${uri}`)
-      this.initWebSocket()
+      // this.websocket = new WebSocket(`${uri}`)
+      // this.initWebSocket()
     } else {
-      this.$message.error('当前浏览器不支持websocket')
+      // this.$message.error('当前浏览器不支持websocket')
     }
   },
   beforeDestroy() {
