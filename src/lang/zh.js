@@ -80,7 +80,8 @@ export default {
     },
     houses:'建筑列表',
     students: '学生列表',
-    courses: '课程信息'
+    courses: '课程信息',
+    exams: '考核信息'
   },
   navbar: {
     dashboard: '首页',

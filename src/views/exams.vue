@@ -4,14 +4,14 @@
       <el-col :span="24">
         <el-form ref="formInline" :inline="true" :model="formInline">
           <el-form-item>
-            <el-button
+            <!-- <el-button
               v-permission="'admin.create'"
               type="primary"
               icon="el-icon-circle-plus-outline"
               @click="createDialog()"
             >
               {{ $t('common.create') }}
-            </el-button>
+            </el-button> -->
           </el-form-item>
           <!-- <el-form-item :label="$t('admin.name')" prop="name">
             <el-input v-model="formInline.name" :placeholder="$t('admin.name')" />
@@ -45,15 +45,14 @@
             @sort-change="tableSortChange"
           >
           <el-table-column prop="id" label="ID"/>
-            <el-table-column prop="name" width="200px" label="账号"/>
-            <el-table-column prop="student_name" width="200px" label="学生名称"/>
-            <el-table-column prop="class_name" width="200px" label="班级"/>
-            <el-table-column prop="school_name" width="200px" label="学校名称"/>
-            <el-table-column prop="total_study_time" width="200px" label="学习时长" :formatter="parseTime"/>
-
-            <el-table-column prop="created_at" width="200px" :label="$t('common.createdAt')" :formatter="rTime" />
+            <el-table-column prop="name" width="150px" label="账号"/>
+            <el-table-column prop="student_name" width="150px" label="学生名称"/>
+            <el-table-column prop="house_name" width="200px" label="建筑名称"/>
+            <el-table-column prop="score" width="150px" label="考试分数"/>
+            <el-table-column prop="used_time" width="200px" label="考试用时" :formatter="parseTime"/>
+            <el-table-column prop="created_at" width="200px" label="考试时间" :formatter="rTime" />
             <!-- <el-table-column prop="updated_at" width="200px" :label="$t('common.updatedAt')" :formatter="rTime" /> -->
-            <el-table-column :label="$t('common.handle')" width="260px">
+            <!-- <el-table-column :label="$t('common.handle')" width="260px">
               <template slot-scope="scope">
                 <el-button
                   v-permission="'admin.update'"
@@ -79,7 +78,7 @@
                   </el-button>
                 </el-popconfirm>
               </template>
-            </el-table-column>
+            </el-table-column> -->
           </el-table>
         </el-col>
         <el-col :span="24" class="margin-t-10">
@@ -109,12 +108,7 @@
         <el-form-item label="学生姓名" prop="student_name">
           <el-input v-model="updateForm.student_name" />
         </el-form-item>
-    
-
-        <el-form-item :label="$t('admin.password')" prop="password">
-          <el-input v-if="dialogTitle == '创建'" v-model="updateForm.password" show-password/>
-          <el-input v-else v-model="updateForm.password" show-password placeholder="留空则不修改" />
-        </el-form-item>
+  
 
         <el-form-item label="班级名称" prop="class_name">
           <el-input v-model="updateForm.class_name" placeholder="请输入班级名称" />
@@ -134,11 +128,10 @@
 
 <script>
 import { rTime,parseTime } from '@/utils'
-import { admins, admin, deleted, create as createAdmin, update } from '@/api/admin'
-import { getStudentList, updateStudent, deleteStudent } from '@/api/student'
+import {getExamList } from '@/api/exam'
 
 export default {
-  name: 'Students',
+  name: 'Exams',
   components: {  },
   data() {
     return {
@@ -278,10 +271,10 @@ export default {
       if (rTime(this.formInline.time[1]) !== '') {
         requestData['end_at'] = rTime(this.formInline.time[1])
       }
-      getStudentList(requestData).then(response => {
+      getExamList(requestData).then(response => {
         const { data } = response
         this.loading = false
-        this.tableData = data.students
+        this.tableData = data.ranks
         this.total = data.total
       })
     },

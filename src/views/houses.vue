@@ -31,13 +31,14 @@
           <el-table highlight-current-row :data="tableData" style="width: 100%"
             :default-sort="{ prop: sort, order: order }" @sort-change="tableSortChange">
             <el-table-column prop="house_id" label="ID" />
-            <el-table-column prop="house_name" label="建筑名称" />
+            <el-table-column prop="house_name" label="建筑名称" width="200px"/>
             <el-table-column prop="big_city_name" label="市" />
             <el-table-column prop="city_name" label="县" />
-            <el-table-column prop="address_name" label="地址" />
-            <el-table-column prop="created_at" :label="$t('common.createdAt')" :formatter="rTime" />
-            <el-table-column prop="updated_at" :label="$t('common.updatedAt')" :formatter="rTime" />
-            <el-table-column :label="$t('common.handle')" width="600px">
+            <el-table-column prop="address_name" width="300px" label="地址" />
+            <el-table-column prop="link_url" width="300px" label="链接地址" />
+            <!-- <el-table-column prop="created_at" width="200px" :label="$t('common.createdAt')" :formatter="rTime" /> -->
+            <!-- <el-table-column prop="updated_at" width="200px" :label="$t('common.updatedAt')" :formatter="rTime" /> -->
+            <el-table-column :label="$t('common.handle')" width="260px">
               <template slot-scope="scope">
                 <el-button v-permission="'admin.update'" icon="el-icon-edit-outline" type="primary"
                   @click="handleEdit(scope.row)">
@@ -77,6 +78,18 @@
           <el-input v-model="updateForm.address_name" />
         </el-form-item>
 
+        <el-form-item label="视频" prop="video_link">
+          <el-upload class="upload-demo" action="http://127.0.0.1:8000/api/admin/file/upload" :on-preview="handlePreview"
+            :on-remove="handleRemove" :before-upload="handleBeforeUpload" :before-remove="beforeRemove" :on-exceed="handleExceed"
+            :file-list="fileList" :on-success="handleUploadSuccess">
+            <el-button size="small" type="primary">点击上传</el-button>
+          </el-upload>
+        </el-form-item>
+
+        <el-form-item label="链接地址" prop="link_url">
+          <el-input v-model="updateForm.link_url" />
+        </el-form-item>
+
         <el-form-item>
           <el-button type="primary" @click="onUpdate()">{{ $t('common.submit') }}</el-button>
         </el-form-item>
@@ -94,6 +107,7 @@ export default {
   components: {},
   data() {
     return {
+      fileList:[], 
       options: undefined,
       updateForm: {
         // name: '',
@@ -144,15 +158,7 @@ export default {
       dialogVisible: false,
       createVisible: false,
       updateVisible: false,
-      updateId: 0,
-      syncRolesId: 0,
-      syncRolesVisible: false,
-      syncRolesTitle: '',
-      syncPermissionsId: 0,
-      syncPermissionsVisible: false,
-      syncPermissionsTitle: '',
-      seeMoreRoles: [],
-      seeMoreRolesVisible: false
+      updateId: 0
     }
   },
   mounted() {
@@ -164,6 +170,7 @@ export default {
       this.dialogTitle = "创建"
       this.dialogVisible = true
       this.updateForm = {}
+      this.fileList = []
     },
     onUpdate() {
       if (!this.updateForm.house_name) {
@@ -181,7 +188,7 @@ export default {
         })
         return
       }
-    
+
       if (!this.updateForm.address_name) {
         this.$message({
           message: '请输入地址',
@@ -278,36 +285,36 @@ export default {
       this.dialogVisible = true
       this.updateForm = row
       this.updateForm.area = [row.province_code, row.big_city_code, row.city_code]
+      if(row.video_link_url) {
+        this.fileList = [{name: row.video_link_name, url: row.video_link_url}]
+      }
     },
     success() {
       this.syncRolesId = 0
       this.syncRolesVisible = false
       this.getAdmins()
     },
-
-    syncPermissions(row) {
-      const { id, name } = row
-      this.syncPermissionsId = id
-      this.syncPermissionsVisible = true
-      this.syncPermissionsTitle = name
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
     },
-
-    syncPermissionSuccess() {
-      this.syncPermissionsId = 0
-      this.syncPermissionsVisible = false
-      this.getAdmins()
+    handlePreview(file) {
+      console.log(file);
     },
-
-    seeMoreRole(roles) {
-      this.seeMoreRoles = roles
-      this.seeMoreRolesVisible = true
+    handleExceed(files, fileList) {
+      // this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
     },
-
-    seeMoreRolesClose() {
-      this.seeMoreRoles = []
-      this.seeMoreRolesVisible = false
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`);
+    },
+    handleUploadSuccess(res, file) {
+      console.log(res)
+      this.updateForm.video_link_url = res.data.path;
+      this.updateForm.video_link_name = res.data.name;
+      this.fileList = [{name: res.data.name, url: res.data.url}]
+    },
+    handleBeforeUpload(file) {
+      // this.fileList = [];
     }
-
   }
 }
 </script>
