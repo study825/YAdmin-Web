@@ -10,20 +10,25 @@
             </el-button>
           </el-form-item>
 
-          <!-- <el-form-item :label="$t('admin.name')" prop="name">
-            <el-input v-model="formInline.name" :placeholder="$t('admin.name')" />
+          <!-- <el-form-item label="地区" prop="area">
+            <el-cascader v-model="formInline.area" :options="options"/>
           </el-form-item> -->
+
+          <el-form-item label="建筑名称" prop="house_name">
+            <el-input v-model="formInline.house_name"/>
+          </el-form-item>
+
           <!-- <el-form-item :label="$t('common.createTime')" prop="time">
             <el-date-picker v-model="formInline.time" type="datetimerange" :picker-options="pickerOptions"
               range-separator="~" :start-placeholder="$t('common.startTime')" :end-placeholder="$t('common.endTime')"
               align="right" />
           </el-form-item> -->
-          <!-- <el-col>
+          <el-col>
             <el-form-item>
               <el-button type="primary" @click="onSubmit">{{ $t('common.search') }}</el-button>
               <el-button @click="resetForm('formInline')">{{ $t('common.reset') }}</el-button>
             </el-form-item>
-          </el-col> -->
+          </el-col>
         </el-form>
       </el-col>
       <el-col v-loading="loading" :span="24">
@@ -116,7 +121,7 @@ export default {
         // status: 0
       },
       formInline: {
-        name: '',
+        house_name: '',
         time: ''
       },
       dialogTitle: '',
@@ -224,6 +229,11 @@ export default {
       this.offset = 0
       this.getAdmins()
     },
+    resetForm(formName) {
+      this.$refs[formName].resetFields()
+      this.offset = 0
+      this.getAdmins()
+    },
     tableSortChange(column) {
       this.order = column.order ? column.order : 'descending'
       this.sort = column.prop
@@ -237,7 +247,7 @@ export default {
         limit: this.limit,
         order: this.order,
         sort: this.sort,
-        name: this.formInline.name,
+        house_name: this.formInline.house_name,
         guard_name: 'admin'
       }
       if (rTime(this.formInline.time[0]) !== '') {

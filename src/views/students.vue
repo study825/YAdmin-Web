@@ -13,10 +13,24 @@
               {{ $t('common.create') }}
             </el-button>
           </el-form-item>
-          <!-- <el-form-item :label="$t('admin.name')" prop="name">
-            <el-input v-model="formInline.name" :placeholder="$t('admin.name')" />
+          
+          <el-form-item label="学校" prop="school_name">
+            <el-select v-model="formInline.school_name" filterable placeholder="请选择">
+              <el-option
+                v-for="item in soptions"
+                :key="item"
+                :label="item"
+                :value="item">
+              </el-option>
+            </el-select>
           </el-form-item>
-          <el-form-item :label="$t('common.createTime')" prop="time">
+
+          <el-form-item label="学生名称" prop="student_name">
+            <el-input v-model="formInline.student_name"/>
+          </el-form-item>
+          
+
+          <!-- <el-form-item :label="$t('common.createTime')" prop="time">
             <el-date-picker
               v-model="formInline.time"
               type="datetimerange"
@@ -27,12 +41,12 @@
               align="right"
             />
           </el-form-item> -->
-          <!-- <el-col>
+          <el-col>
             <el-form-item>
               <el-button type="primary" @click="onSubmit">{{ $t('common.search') }}</el-button>
               <el-button @click="resetForm('formInline')">{{ $t('common.reset') }}</el-button>
             </el-form-item>
-          </el-col> -->
+          </el-col>
         </el-form>
       </el-col>
       <el-col v-loading="loading" :span="24">
@@ -134,8 +148,8 @@
 
 <script>
 import { rTime,parseTime } from '@/utils'
-import { admins, admin, deleted, create as createAdmin, update } from '@/api/admin'
-import { getStudentList, updateStudent, deleteStudent } from '@/api/student'
+import {  create as createAdmin } from '@/api/admin'
+import { getStudentList, updateStudent, deleteStudent,getSchoolList } from '@/api/student'
 
 export default {
   name: 'Students',
@@ -150,7 +164,8 @@ export default {
         status: 0
       },
       formInline: {
-        name: '',
+        student_name: '',
+        school_name:'',
         time: ''
       },
       total: 0,
@@ -195,13 +210,22 @@ export default {
       syncRolesTitle: '',
       syncPermissionsId: 0,
       syncPermissionsVisible: false,
-      syncPermissionsTitle: ''
+      syncPermissionsTitle: '',
+      soptions:[]
     }
   },
   mounted() {
     this.getAdmins()
+    this.getSchools()
   },
   methods: {
+    getSchools() {
+      getSchoolList().then(response => {
+        const { data } = response
+        this.soptions = data.school_list
+        console.log(this.soptions)
+      })
+    },
     createDialog() {
       this.dialogTitle = '创建'
       this.dialogVisible = true
@@ -270,7 +294,8 @@ export default {
         limit: this.limit,
         order: this.order,
         sort: this.sort,
-        name: this.formInline.name,
+        student_name: this.formInline.student_name,
+        school_name:  this.formInline.school_name,
       }
       if (rTime(this.formInline.time[0]) !== '') {
         requestData['start_at'] = rTime(this.formInline.time[0])

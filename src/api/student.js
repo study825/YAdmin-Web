@@ -24,3 +24,10 @@ export function deleteStudent(data) {
     data
   })
 }
+
+export function getSchoolList() {
+  return request({
+    url: '/school/list',
+    method: 'get'
+  })
+}
